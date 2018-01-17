@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -259,7 +260,7 @@ namespace Nop.Services.Orders
                     //not in the cart
                     if (!alreadyInTheCart)
                     {
-                        var requiredProductName = rp.GetLocalized(x => x.Name);
+                        var requiredProductName = WebUtility.HtmlEncode(rp.GetLocalized(x => x.Name));
                         var requiredProductLink = $"<a href=\"{(urlHelper.RouteUrl("Product", new { SeName = rp.GetSeName()}))}\">{requiredProductName}</a>";
                         var requiredProductWarning = _catalogSettings.UseLinksInRequiredProductWarnings ?
                             string.Format(_localizationService.GetResource("ShoppingCart.RequiredProductWarning"), requiredProductLink) :
